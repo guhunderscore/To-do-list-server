@@ -17,7 +17,7 @@ ActiveRecord::Schema.define(version: 20170208025215) do
 
   create_table "tasks", force: :cascade do |t|
     t.string   "text"
-    t.string   "status"
+    t.string   "aasm_state"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

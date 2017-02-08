@@ -11,13 +11,16 @@ class TasksController < ApplicationController
   end
 
   # GET /tasks/1
-  def show
-    render json: @task
-  end
+  # def show
+  #   render json: @task
+  # end
 
   # POST /tasks
-  api :POST, '/task/', 'Process Create'
-  param :text, String, desc: 'Description task', required: true
+  api :POST, '/task/', 'Create Process'
+  param :task, ActionController::Parameters, desc: 'Task' do
+    param :text, String, desc: 'Task text', required: true
+  end
+
   description 'Ability for create new task list'
   def create
     @task = Task.new(task_params)
@@ -30,6 +33,12 @@ class TasksController < ApplicationController
   end
 
   # PATCH/PUT /tasks/1
+  api :PUT, '/task/:id', 'Update Process'
+  param :task, ActionController::Parameters, desc: 'Task' do
+    param :text, String, desc: 'Task text', required: true
+  end
+
+  description 'Ability for update new task list'
   def update
     if @task.update(task_params)
       render json: @task
@@ -39,6 +48,7 @@ class TasksController < ApplicationController
   end
 
   # DELETE /tasks/1
+  api :DELETE, '/task/:id', 'Delete Process'
   def destroy
     @task.destroy
   end
@@ -51,6 +61,6 @@ class TasksController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def task_params
-      params.permit(:text)
+      params.require(:task).permit(:id, :text, :aasm_state)
     end
 end
