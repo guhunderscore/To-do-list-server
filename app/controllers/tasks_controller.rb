@@ -5,7 +5,7 @@ class TasksController < ApplicationController
   api :GET, '/task/', 'Task List'
   description 'Ability for show all task list'
   def index
-    @tasks = Task.all
+    @tasks = Task.all.order(id: :desc)
 
     render json: { tasks: @tasks }
   end
